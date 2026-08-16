@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/* ============================================
+   هوية "Trend Shop" — مستخرجة من الشعار الفعلي
+   (أخضر ليموني حيوي + أسود + أبيض)
+   ============================================ */
+:root {
+  /* الألوان الدلالية الأساسية في HeroUI */
+  --accent: #84cd04; /* الأخضر الحيوي من الشعار */
+  --accent-hover: #6fb000;
+  --accent-foreground: #181818; /* نص/أيقونات داكنة فوق الأخضر لضمان التباين والوضوح */
+  --foreground: #181818; /* أسود الشعار */
+  --background: #ffffff; /* أبيض نقي */
+  --focus: var(--accent);
+  --success: #84cd04;
+
+  /* ألوان إضافية خاصة بهوية Trend Shop */
+  --color-trend-pine: #181818; /* أسود العلامة — للأقسام الداكنة (فوتر...) */
+  --color-trend-fresh: #84cd04; /* الأخضر الحيوي الأساسي */
+  --color-trend-sage: #f2fae1; /* أخضر فاتح جداً — لتبديل خلفيات الأقسام */
+  --color-trend-sage-deep: #e5f5c8;
+  --color-trend-ink: #181818;
+}
+
+@theme {
+  --font-sans: "Tajawal", ui-sans-serif, system-ui, sans-serif;
+
+  --color-trend-pine: #181818;
+  --color-trend-fresh: #84cd04;
+  --color-trend-sage: #f2fae1;
+  --color-trend-sage-deep: #e5f5c8;
+  --color-trend-ink: #181818;
+  --color-trend-gold: #f5b301;
+  --color-trend-green-text: #4d7a00; /* درجة أغمق من الأخضر، للنصوص الصغيرة لضمان وضوح القراءة على الأبيض */
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  font-family: "Tajawal", ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* توهج عضوي ناعم يُستخدم خلف عناصر "الإشارة" في التصميم */
+.trend-glow {
+  background: radial-gradient(
+    circle at 30% 30%,
+    color-mix(in oklab, var(--color-trend-fresh) 35%, transparent),
+    transparent 60%
+  );
+}
+
+/* تحسين وضوح التركيز للوحة المفاتيح */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
