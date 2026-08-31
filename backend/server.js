@@ -35,14 +35,11 @@ const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // نسمح بدون origin (مثل أدوات كـ curl/Postman) وبكل النطاقات المسموحة
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("غير مسموح بالوصول من هذا النطاق (CORS)"));
-      }
-    },
+    origin: [
+      "https://trend-shop-nas-projects-fbafdf.vercel.app",
+      "http://localhost:5173",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   }),
 );
 
