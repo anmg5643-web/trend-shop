@@ -16,80 +16,192 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-// خلف بروكسي (مثل Render/Railway) لضمان قراءة صحيحة لعنوان IP الحقيقي
+// خلف بروكسي مثل Render
 app.set("trust proxy", 1);
 
-// حماية أساسية لرؤوس HTTP
-// crossOriginResourcePolicy: "cross-origin" ضروري حتى يقدر الفرونت إند
-// (على نطاق/منفذ مختلف) يعرض صور المنتجات المرفوعة من /uploads
+// حماية HTTP
 app.use(
   helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-  }),
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
+  })
 );
 
-// السماح فقط لنطاق الفرونت إند المحدد في .env (يدعم أكثر من نطاق مفصول بفاصلة)
-const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
-  .split(",")
-  .map((o) => o.trim());
+// ==========================================
+// CORS
+// ==========================================
 
-app.use(cors({
-  origin: "https://trend-shop-anas-projects-f5ad8f.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+// السماح بالرابط الموجود في FRONTEND_URL
+// و localhost أثناء التطوير
+const allowedOrigins = (
+  process.env.FRONTEND_URL ||
+  "https://trend-shop-anas-projects-fb5ad8f.vercel.app,http://localhost:5173"
+)
+  .split(",")
+  .map((origin) => origin.trim().replace(/\/$/, ""));
+
+console.log("✅ Allowed CORS origins:", allowedOrigins);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // السماح للطلبات التي ليس لها Origin
+      // مثل Postman أو بعض فحوصات Render
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      const cleanOrigin = origin.replace(/\/$/, "");
+
+      if (allowedOrigins.includes(cleanOrigin)) {
+        return callback(null, true);
+      }
+
+      console.log("❌ CORS blocked:", origin);
+
+      return callback(
+        new Error(`CORS blocked for origin: ${origin}`)
+      );
+    },
+
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS",
+    ],
+
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+    ],
+
+    credentials: true,
+  })
+);
+
+// ==========================================
+// Middlewares
+// ==========================================
 
 app.use(express.json());
+
 app.use(morgan("dev"));
 
-// حد عام لعدد الطلبات لكل IP (يحمي من إساءة الاستخدام والهجمات الآلية)
+// ==========================================
+// Rate Limiter
+// ==========================================
+
 app.use(
   "/api",
   rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 دقيقة
+    windowMs: 15 * 60 * 1000,
     limit: 300,
-    message: { message: "طلبات كثيرة جداً، حاول مرة أخرى بعد قليل" },
+
+    message: {
+      message: "طلبات كثيرة جداً، حاول مرة أخرى بعد قليل",
+    },
+
     standardHeaders: true,
     legacyHeaders: false,
-  }),
+  })
 );
 
-// حد أشد صرامة على تسجيل دخول الأدمن (حماية من محاولات التخمين المتكررة)
+// ==========================================
+// Login Rate Limiter
+// ==========================================
+
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
+
   limit: 10,
-  message: { message: "محاولات دخول كثيرة جداً، حاول مرة أخرى بعد 15 دقيقة" },
+
+  message: {
+    message:
+      "محاولات دخول كثيرة جداً، حاول مرة أخرى بعد 15 دقيقة",
+  },
+
   standardHeaders: true,
   legacyHeaders: false,
 });
+
 app.use("/api/auth/login", loginLimiter);
 
-// تقديم الصور المرفوعة كملفات ثابتة
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// ==========================================
+// Static uploads
+// ==========================================
+
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
+
+// ==========================================
+// Health Check
+// ==========================================
 
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", service: "alwaha-backend" });
+  res.json({
+    status: "ok",
+    service: "trend-shop-backend",
+  });
 });
+
+// ==========================================
+// API Routes
+// ==========================================
 
 app.use("/api/products", productRoutes);
+
 app.use("/api/orders", orderRoutes);
+
 app.use("/api/auth", authRoutes);
 
-// معالجة المسارات غير الموجودة
+// ==========================================
+// 404
+// ==========================================
+
 app.use((req, res) => {
-  res.status(404).json({ message: "المسار غير موجود" });
+  res.status(404).json({
+    message: "المسار غير موجود",
+  });
 });
 
-// معالج أخطاء عام
+// ==========================================
+// Error Handler
+// ==========================================
+
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "حدث خطأ في الخادم" });
+  console.error("❌ Server Error:", err.message);
+
+  if (err.message?.includes("CORS blocked")) {
+    return res.status(403).json({
+      message: "CORS غير مسموح لهذا الموقع",
+    });
+  }
+
+  res.status(500).json({
+    message: "حدث خطأ في الخادم",
+  });
 });
+
+// ==========================================
+// Start Server
+// ==========================================
 
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 الخادم يعمل على المنفذ ${PORT}`);
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 الخادم يعمل على المنفذ ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("❌ فشل الاتصال بقاعدة البيانات:");
+    console.error(error);
+    process.exit(1);
   });
-});
