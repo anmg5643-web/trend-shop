@@ -16,10 +16,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-// خلف بروكسي مثل Render
+// ==========================================
+// Trust Proxy
+// ==========================================
+
 app.set("trust proxy", 1);
 
-// حماية HTTP
+// ==========================================
+// Helmet Security
+// ==========================================
+
 app.use(
   helmet({
     crossOriginResourcePolicy: {
@@ -29,59 +35,11 @@ app.use(
 );
 
 // ==========================================
-// CORS
+// CORS - مفتوح مؤقتاً للتجربة
 // ==========================================
 
-// السماح بالرابط الموجود في FRONTEND_URL
-// و localhost أثناء التطوير
-const allowedOrigins = (
-  process.env.FRONTEND_URL ||
-  "https://trend-shop-anas-projects-fb5ad8f.vercel.app,http://localhost:5173"
-)
-  .split(",")
-  .map((origin) => origin.trim().replace(/\/$/, ""));
-
-console.log("✅ Allowed CORS origins:", allowedOrigins);
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // السماح للطلبات التي ليس لها Origin
-      // مثل Postman أو بعض فحوصات Render
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      const cleanOrigin = origin.replace(/\/$/, "");
-
-      if (allowedOrigins.includes(cleanOrigin)) {
-        return callback(null, true);
-      }
-
-      console.log("❌ CORS blocked:", origin);
-
-      return callback(
-        new Error(`CORS blocked for origin: ${origin}`)
-      );
-    },
-
-    methods: [
-      "GET",
-      "POST",
-      "PUT",
-      "PATCH",
-      "DELETE",
-      "OPTIONS",
-    ],
-
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-    ],
-
-    credentials: true,
-  })
-);
+// السماح لجميع المواقع بالوصول للـ API مؤقتاً
+app.use(cors());
 
 // ==========================================
 // Middlewares
@@ -116,7 +74,6 @@ app.use(
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-
   limit: 10,
 
   message: {
@@ -131,7 +88,7 @@ const loginLimiter = rateLimit({
 app.use("/api/auth/login", loginLimiter);
 
 // ==========================================
-// Static uploads
+// Static Uploads
 // ==========================================
 
 app.use(
@@ -161,7 +118,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/auth", authRoutes);
 
 // ==========================================
-// 404
+// 404 Routes
 // ==========================================
 
 app.use((req, res) => {
@@ -171,17 +128,11 @@ app.use((req, res) => {
 });
 
 // ==========================================
-// Error Handler
+// Global Error Handler
 // ==========================================
 
 app.use((err, req, res, next) => {
   console.error("❌ Server Error:", err.message);
-
-  if (err.message?.includes("CORS blocked")) {
-    return res.status(403).json({
-      message: "CORS غير مسموح لهذا الموقع",
-    });
-  }
 
   res.status(500).json({
     message: "حدث خطأ في الخادم",
@@ -198,6 +149,7 @@ connectDB()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`🚀 الخادم يعمل على المنفذ ${PORT}`);
+      console.log("⚠️ CORS مفتوح مؤقتاً للتجربة");
     });
   })
   .catch((error) => {
