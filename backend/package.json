@@ -4,10 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js",
-    "seed": "node seed.js"
-  },
+   "start": "node server.js",
+   "dev": "node --watch server.js",
+   "seed": "node seed.js",
+   "reset-admin": "node resetAdmin.js"
+  }
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
