@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { getProducts } from "../lib/api.js";
 
 const CartContext = createContext(null);
 const STORAGE_KEY = "alwaha_cart";
@@ -21,6 +22,28 @@ export function CartProvider({ children }) {
     }
   }, [items]);
 
+  // سلات قديمة انحفظت بدون صورة: نكمّلو الصور مرة وحدة من الباك إند عند فتح الموقع
+  useEffect(() => {
+    if (!items.some((i) => !i.image)) return;
+    let cancelled = false;
+    getProducts()
+      .then((list) => {
+        if (cancelled) return;
+        const byId = new Map(list.map((p) => [p._id, p]));
+        setItems((prev) =>
+          prev.map((i) => {
+            const image = byId.get(i.productId)?.image;
+            return !i.image && image ? { ...i, image } : i;
+          }),
+        );
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const addItem = (product) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.productId === product._id);
@@ -36,6 +59,7 @@ export function CartProvider({ children }) {
           name: product.name,
           price: product.price,
           icon: product.icon,
+          image: product.image || "",
           quantity: 1,
         },
       ];

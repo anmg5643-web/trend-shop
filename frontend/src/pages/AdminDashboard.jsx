@@ -41,7 +41,14 @@ export default function AdminDashboard() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [actionError, setActionError] = useState("");
   const [editingProduct, setEditingProduct] = useState(undefined); // undefined = مغلق، null = إضافة، object = تعديل
+
+  const logout = useCallback(() => {
+    localStorage.removeItem("alwaha_admin_token");
+    localStorage.removeItem("alwaha_admin_username");
+    navigate("/admin/login");
+  }, [navigate]);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -54,11 +61,15 @@ export default function AdminDashboard() {
       setProducts(p);
       setOrders(o);
     } catch (err) {
+      if (err.status === 401) {
+        logout();
+        return;
+      }
       setError(err.message || "تعذر تحميل البيانات");
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, logout]);
 
   useEffect(() => {
     if (!token) {
@@ -68,17 +79,18 @@ export default function AdminDashboard() {
     loadData();
   }, [token, navigate, loadData]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("alwaha_admin_token");
-    localStorage.removeItem("alwaha_admin_username");
-    navigate("/admin/login");
-  };
+  const handleLogout = logout;
 
   const handleSaveProduct = async (data) => {
-    if (editingProduct && editingProduct._id) {
-      await updateProduct(token, editingProduct._id, data);
-    } else {
-      await createProduct(token, data);
+    try {
+      if (editingProduct && editingProduct._id) {
+        await updateProduct(token, editingProduct._id, data);
+      } else {
+        await createProduct(token, data);
+      }
+    } catch (err) {
+      if (err.status === 401) logout();
+      throw err; // المودال يعرض الخطأ للمستخدم
     }
     setEditingProduct(undefined);
     loadData();
@@ -86,13 +98,25 @@ export default function AdminDashboard() {
 
   const handleDeleteProduct = async (id) => {
     if (!window.confirm("هل أنت متأكد من حذف هذا المنتج؟")) return;
-    await deleteProduct(token, id);
-    loadData();
+    setActionError("");
+    try {
+      await deleteProduct(token, id);
+      loadData();
+    } catch (err) {
+      if (err.status === 401) return logout();
+      setActionError(err.message || "تعذر حذف المنتج");
+    }
   };
 
   const handleStatusChange = async (orderId, status) => {
-    await updateOrderStatus(token, orderId, status);
-    loadData();
+    setActionError("");
+    try {
+      await updateOrderStatus(token, orderId, status);
+      loadData();
+    } catch (err) {
+      if (err.status === 401) return logout();
+      setActionError(err.message || "تعذر تحديث حالة الطلب");
+    }
   };
 
   return (
@@ -165,6 +189,12 @@ export default function AdminDashboard() {
             )}
           </div>
         </div>
+
+        {actionError && (
+          <p className="mt-6 rounded-xl bg-red-50 p-3 text-center text-sm text-red-600">
+            {actionError}
+          </p>
+        )}
 
         {loading && <p className="mt-10 text-center text-trend-ink/50">جاري التحميل...</p>}
         {!loading && error && (

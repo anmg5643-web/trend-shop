@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { ShieldCheck, Truck, MessageCircle, TrendingUp } from "lucide-react";
 
 const values = [
@@ -19,55 +18,24 @@ const values = [
   },
 ];
 
-const stats = [
-  { value: "+50K", label: "عميل سعيد" },
-  { value: "+1200", label: "منتج متنوع" },
-  { value: "15", label: "مدينة نخدمها" },
-  { value: "4.9", label: "تقييم العملاء" },
-];
-
 export default function AboutUs() {
   return (
-    <section id="about" className="relative overflow-hidden bg-trend-sage py-24">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-4 sm:px-6 lg:grid-cols-2">
+    <section id="about" className="bg-white py-16 sm:py-20">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
         {/* البصري */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-          className="relative order-2 lg:order-1"
-        >
-          <div className="rounded-[2.5rem] bg-trend-pine p-10 text-white shadow-xl">
-            <TrendingUp size={40} className="text-trend-fresh" />
+        <div className="order-2 lg:order-1">
+          <div className="rounded-3xl bg-trend-pine p-8 text-white sm:p-10">
+            <TrendingUp size={36} className="text-trend-fresh" />
             <p className="mt-6 text-2xl font-bold leading-relaxed">
               "نؤمن أن التسوق الذكي يبدأ باختيار صحيح، وسهل، وبدون تعقيد."
             </p>
             <p className="mt-6 text-sm text-white/60">— فريق Trend Shop</p>
           </div>
-
-          <div className="mt-6 grid grid-cols-2 gap-4">
-            {stats.map((s) => (
-              <div
-                key={s.label}
-                className="rounded-2xl bg-white p-5 text-center shadow-sm"
-              >
-                <p className="text-2xl font-black text-trend-pine">{s.value}</p>
-                <p className="mt-1 text-xs text-trend-ink/60">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+        </div>
 
         {/* النص */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-          className="order-1 lg:order-2"
-        >
-          <span className="text-sm font-bold uppercase tracking-wider text-trend-green-text">
+        <div className="order-1 lg:order-2">
+          <span className="text-sm font-bold text-trend-green-text">
             من نحن
           </span>
           <h2 className="mt-3 text-3xl font-black leading-tight text-trend-ink sm:text-4xl">
@@ -83,7 +51,7 @@ export default function AboutUs() {
           <div className="mt-8 space-y-5">
             {values.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex items-start gap-4">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white text-trend-pine shadow-sm">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-trend-sage text-trend-pine">
                   <Icon size={20} />
                 </span>
                 <div>
@@ -93,7 +61,7 @@ export default function AboutUs() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

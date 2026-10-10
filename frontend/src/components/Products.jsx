@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Spinner } from "@heroui/react";
-import { motion } from "framer-motion";
+import { Button, Spinner } from "@heroui/react";
 import { getProducts } from "../lib/api.js";
 import { useCart } from "../context/CartContext.jsx";
 import ProductCard from "./ProductCard.jsx";
@@ -9,6 +8,7 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
   const { addItem } = useCart();
 
   useEffect(() => {
@@ -30,13 +30,13 @@ export default function Products() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [reloadKey]);
 
   return (
-    <section id="products" className="bg-white py-24">
+    <section id="products" className="bg-trend-sage py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <span className="text-sm font-bold uppercase tracking-wider text-trend-green-text">
+          <span className="text-sm font-bold text-trend-green-text">
             منتجاتنا
           </span>
           <h2 className="mt-3 text-3xl font-black text-trend-ink sm:text-4xl">
@@ -47,35 +47,31 @@ export default function Products() {
           </p>
         </div>
 
-        {/* حالة التحميل */}
         {isLoading && (
-          <div className="mt-16 flex justify-center">
+          <div className="mt-12 flex justify-center">
             <Spinner size="lg" className="text-accent" />
           </div>
         )}
 
-        {/* حالة الخطأ (مثلاً الباك إند غير مشغّل بعد) */}
         {!isLoading && error && (
-          <div className="mt-16 rounded-2xl bg-trend-sage p-8 text-center">
-            <p className="font-bold text-trend-ink">
-              تعذر جلب المنتجات من الخادم
-            </p>
+          <div className="mx-auto mt-12 max-w-md rounded-3xl bg-white p-8 text-center">
+            <p className="font-bold text-trend-ink">تعذر تحميل المنتجات</p>
             <p className="mt-2 text-sm text-trend-ink/60">
-              تأكد أن الباك إند يعمل (npm run dev) وأن قاعدة البيانات متصلة.
-              <br />
-              <span dir="ltr" className="text-xs">
-                {error}
-              </span>
+              تأكد من اتصالك بالإنترنت وحاول مرة أخرى.
             </p>
+            <Button
+              variant="primary"
+              size="sm"
+              className="mt-5 rounded-full bg-accent px-6"
+              onPress={() => setReloadKey((k) => k + 1)}
+            >
+              إعادة المحاولة
+            </Button>
           </div>
         )}
 
-        {/* شبكة المنتجات */}
         {!isLoading && !error && (
-          <motion.div
-            layout
-            className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          >
+          <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
             {products.map((product) => (
               <ProductCard
                 key={product._id}
@@ -83,11 +79,11 @@ export default function Products() {
                 onAddToCart={addItem}
               />
             ))}
-          </motion.div>
+          </div>
         )}
 
         {!isLoading && !error && products.length === 0 && (
-          <p className="mt-16 text-center text-trend-ink/50">
+          <p className="mt-12 text-center text-trend-ink/50">
             لا توجد منتجات حالياً.
           </p>
         )}

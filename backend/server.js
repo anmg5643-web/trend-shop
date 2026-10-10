@@ -11,6 +11,7 @@ import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import imageRoutes from "./routes/imageRoutes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -48,6 +49,14 @@ app.use(cors());
 app.use(express.json());
 
 app.use(morgan("dev"));
+
+// ==========================================
+// Images (قبل الـ Rate Limiter عن قصد)
+// كل زيارة للموقع تحمّل عدة صور، فلو حسبناها ضمن حد 300 طلب
+// ممكن نحجب زباين حقيقيين (خصوصًا لو كذا واحد على نفس الشبكة)
+// ==========================================
+
+app.use("/api/images", imageRoutes);
 
 // ==========================================
 // Rate Limiter

@@ -13,7 +13,9 @@ async function request(path, options = {}) {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(data.message || "حدث خطأ غير متوقع");
+    const err = new Error(data.message || "حدث خطأ غير متوقع");
+    err.status = res.status;
+    throw err;
   }
   return data;
 }
@@ -87,7 +89,9 @@ export async function uploadImage(token, file) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(data.message || "تعذر رفع الصورة");
+    const err = new Error(data.message || "تعذر رفع الصورة");
+    err.status = res.status;
+    throw err;
   }
   return data;
 }
