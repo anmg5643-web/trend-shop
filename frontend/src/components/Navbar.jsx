@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Badge } from "@heroui/react";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
+import AnimatedLogo from "./AnimatedLogo.jsx";
 
 const navItems = [
   { label: "الرئيسية", href: "#home" },
@@ -33,11 +34,8 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-separator bg-white/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         {/* الشعار */}
-        <Link to="/#home" className="flex shrink-0 items-center gap-2">
-          <img src="/logo-icon.png" alt="Trend Shop" className="h-9 w-auto" />
-          <span className="text-xl font-extrabold text-trend-ink">
-            <span className="text-accent">Trend</span> Shop
-          </span>
+        <Link to="/#home" aria-label="Trend Shop" className="flex shrink-0 items-center">
+          <AnimatedLogo className="h-10 w-auto" />
         </Link>
 
         {/* روابط التصفح - الشاشات الكبيرة */}
