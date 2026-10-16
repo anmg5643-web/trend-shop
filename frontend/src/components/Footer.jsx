@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { MessageCircle, Music2 } from "lucide-react";
+import AnimatedLogo from "./AnimatedLogo.jsx";
 
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "218945630859";
 
@@ -7,6 +8,7 @@ const links = [
   { label: "الرئيسية", href: "#home" },
   { label: "المنتجات", href: "#products" },
   { label: "من نحن", href: "#about" },
+  { label: "مناطق التوصيل", href: "#cities" },
 ];
 
 const socials = [
@@ -28,11 +30,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
           <div>
-            <Link to="/#home" className="flex items-center gap-2">
-              <img src="/logo-icon.png" alt="Trend Shop" className="h-9 w-auto" />
-              <span className="text-xl font-extrabold">
-                <span className="text-trend-fresh">Trend</span> Shop
-              </span>
+            <Link to="/#home" aria-label="Trend Shop" className="inline-block">
+              <AnimatedLogo animated={false} onDark className="h-12 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-7 text-white/60">
               أحدث المنتجات · أفكار ذكية · استخدام أسهل.

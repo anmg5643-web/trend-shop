@@ -9,9 +9,9 @@ import {
 } from "lucide-react";
 
 const trust = [
-  { icon: Truck, label: "شحن سريع لكل المدن" },
-  { icon: ShieldCheck, label: "دفع آمن 100%" },
-  { icon: RotateCcw, label: "إرجاع مجاني خلال 14 يوم" },
+  { icon: Truck,},
+  { icon: ShieldCheck,},
+  { icon: RotateCcw,},
 ];
 
 export default function Hero() {
@@ -30,19 +30,10 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <span className="inline-flex items-center gap-2 rounded-full bg-trend-sage px-4 py-1.5 text-sm font-semibold text-trend-green-text">
-            <Sparkles size={16} />
-            أحدث المنتجات · أفكار ذكية · استخدام أسهل
-          </span>
 
           <h1 className="mt-6 text-4xl font-black leading-[1.15] text-trend-ink sm:text-5xl lg:text-[3.4rem]">
             كل شي <span className="text-accent">رائج</span>… بين إيديك
           </h1>
-
-          <p className="mx-auto mt-6 max-w-lg text-lg leading-8 text-trend-ink/70">
-            من الإلكترونيات إلى الأزياء ومستلزمات المنزل — منتجات مختارة
-            بعناية، بأفكار ذكية وتجربة تسوق أسهل من أي وقت مضى.
-          </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <Button
