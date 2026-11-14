@@ -5,7 +5,6 @@ import {
   Truck,
   ShieldCheck,
   RotateCcw,
-  Sparkles,
 } from "lucide-react";
 
 const trust = [
@@ -48,18 +47,6 @@ export default function Hero() {
             >
               تسوق الآن
               <ArrowLeft size={18} />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="rounded-full border-trend-pine/20 px-8 text-trend-ink"
-              onPress={() =>
-                document
-                  .querySelector("#about")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              تعرف علينا
             </Button>
           </div>
 

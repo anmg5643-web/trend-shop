@@ -36,7 +36,7 @@ export default function Products() {
     <section id="products" className="bg-trend-sage py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <span className="text-sm font-bold text-trend-green-text">
+          <span className="text-sm font-bold text-trend-brand-text">
             منتجاتنا
           </span>
           <h2 className="mt-3 text-3xl font-black text-trend-ink sm:text-4xl">

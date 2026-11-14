@@ -7,14 +7,13 @@ const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "218945630859";
 const links = [
   { label: "الرئيسية", href: "#home" },
   { label: "المنتجات", href: "#products" },
-  { label: "من نحن", href: "#about" },
   { label: "مناطق التوصيل", href: "#cities" },
 ];
 
 const socials = [
   {
     icon: MessageCircle,
-    href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("مرحباً، عندي استفسار عن Trend Shop")}`,
+    href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("مرحباً، عندي استفسار عن Baz SHOP")}`,
     label: "واتساب",
   },
   {
@@ -30,8 +29,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
           <div>
-            <Link to="/#home" aria-label="Trend Shop" className="inline-block">
-              <AnimatedLogo animated={false} onDark className="h-12 w-auto" />
+            <Link to="/#home" aria-label="Baz SHOP" className="inline-block">
+              <AnimatedLogo onDark className="h-12 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-7 text-white/60">
               أحدث المنتجات · أفكار ذكية · استخدام أسهل.
@@ -74,7 +73,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-6 text-center text-sm text-white/50">
-          © {new Date().getFullYear()} Trend Shop. جميع الحقوق محفوظة.
+          © {new Date().getFullYear()} Baz SHOP. جميع الحقوق محفوظة.
         </div>
       </div>
     </footer>

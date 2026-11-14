@@ -75,7 +75,7 @@ export default function ProductCard({ product, onAddToCart }) {
         </div>
 
         <Link to={`/product/${product._id}`} className="mt-1.5">
-          <h3 className="line-clamp-2 min-h-[2.75rem] text-[15px] leading-[1.4] font-bold text-trend-ink transition-colors hover:text-trend-green-text">
+          <h3 className="line-clamp-2 min-h-[2.75rem] text-[15px] leading-[1.4] font-bold text-trend-ink transition-colors hover:text-trend-brand-text">
             {product.name}
           </h3>
         </Link>

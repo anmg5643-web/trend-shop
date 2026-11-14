@@ -3,7 +3,7 @@ const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "218945630859";
 // يبني رسالة واتساب منسّقة بتفاصيل الطلب ويرجع رابط wa.me جاهز
 export function buildOrderWhatsAppLink({ order, items, form }) {
   const lines = [
-    "🛍️ *طلب جديد من Trend Shop*",
+    "🛍️ *طلب جديد من Baz SHOP*",
     "",
     `👤 *الاسم:* ${form.customerName}`,
     `📞 *الهاتف:* ${form.phone}`,

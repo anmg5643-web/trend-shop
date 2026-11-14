@@ -87,7 +87,7 @@ export default function ProductDetailPage() {
 
             {/* التفاصيل */}
             <div>
-              <p className="text-sm font-bold uppercase tracking-wider text-trend-green-text">
+              <p className="text-sm font-bold uppercase tracking-wider text-trend-brand-text">
                 {product.categoryLabel}
               </p>
               <h1 className="mt-2 text-3xl font-black text-trend-ink sm:text-4xl">

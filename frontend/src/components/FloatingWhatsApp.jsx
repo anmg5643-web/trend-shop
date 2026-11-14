@@ -8,7 +8,7 @@ export default function FloatingWhatsApp() {
   if (location.pathname.startsWith("/admin")) return null;
 
   const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    "مرحباً، عندي استفسار عن Trend Shop",
+    "مرحباً، عندي استفسار عن Baz SHOP",
   )}`;
 
   return (
@@ -17,7 +17,7 @@ export default function FloatingWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="تواصل معنا عبر واتساب"
-      className="fixed bottom-5 left-5 z-40 flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl transition-transform hover:scale-105"
+      className="fixed bottom-5 left-5 z-40 flex size-14 items-center justify-center rounded-full bg-trend-fresh text-white shadow-xl transition-transform hover:scale-105"
     >
       <MessageCircle size={26} fill="white" strokeWidth={0} />
     </a>

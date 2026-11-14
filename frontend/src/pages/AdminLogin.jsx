@@ -31,9 +31,9 @@ export default function AdminLogin() {
     <div className="flex min-h-screen items-center justify-center bg-trend-sage px-4">
       <div className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-xl">
         <div className="flex flex-col items-center text-center">
-          <img src="/logo-icon.png" alt="Trend Shop" className="h-14 w-auto" />
+          <img src="/logo-icon.png" alt="Baz SHOP" className="h-14 w-auto" />
           <h1 className="mt-4 text-xl font-black text-trend-ink">
-            لوحة تحكم Trend Shop
+            لوحة تحكم Baz SHOP
           </h1>
           <p className="mt-1 text-sm text-trend-ink/60">
             تسجيل دخول مخصص للإدارة فقط

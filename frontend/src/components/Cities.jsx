@@ -68,7 +68,7 @@ export default function Cities() {
     <section id="cities" className="bg-trend-sage py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <span className="text-sm font-bold text-trend-green-text">
+          <span className="text-sm font-bold text-trend-brand-text">
             مناطق التوصيل
           </span>
           <h2 className="mt-3 text-3xl font-black text-trend-ink sm:text-4xl">
@@ -100,7 +100,7 @@ export default function Cities() {
 
         <div className="mx-auto mt-6 max-w-4xl rounded-3xl bg-white p-6 sm:p-8">
           <div className="flex items-center gap-2 font-bold text-trend-ink">
-            <MapPin size={18} className="text-trend-green-text" />
+            <MapPin size={18} className="text-trend-brand-text" />
             {region.name}
             <span className="text-sm font-medium text-trend-ink/50">
               ({region.cities.length})
