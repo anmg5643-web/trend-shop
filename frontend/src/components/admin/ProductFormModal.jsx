@@ -18,7 +18,6 @@ const emptyForm = {
   category: "electronics",
   categoryLabel: "إلكترونيات",
   price: "",
-  rating: 4.5,
   icon: "Headphones",
   image: "",
   badge: "",
@@ -39,7 +38,6 @@ export default function ProductFormModal({ product, token, onClose, onSubmit }) 
         category: product.category || "electronics",
         categoryLabel: product.categoryLabel || "",
         price: product.price ?? "",
-        rating: product.rating ?? 4.5,
         icon: product.icon || "Headphones",
         image: product.image || "",
         badge: product.badge || "",
@@ -84,7 +82,6 @@ export default function ProductFormModal({ product, token, onClose, onSubmit }) 
       await onSubmit({
         ...form,
         price: Number(form.price),
-        rating: Number(form.rating),
         stock: Number(form.stock),
       });
     } catch (err) {

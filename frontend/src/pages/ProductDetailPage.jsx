@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@heroui/react";
-import { ArrowRight, Star, Minus, Plus, ShoppingCart, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Minus, Plus, ShoppingCart, CheckCircle2 } from "lucide-react";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import { getProduct, getFileUrl } from "../lib/api.js";
@@ -94,12 +94,8 @@ export default function ProductDetailPage() {
                 {product.name}
               </h1>
 
-              <div className="mt-3 flex items-center gap-2 text-trend-ink/60">
-                <Star size={18} className="fill-trend-gold text-trend-gold" />
-                <span className="font-semibold">{product.rating}</span>
-                <span className="text-sm">
-                  · متوفر بالمخزون: {product.stock}
-                </span>
+              <div className="mt-3 text-sm text-trend-ink/60">
+                متوفر بالمخزون: {product.stock}
               </div>
 
               <p className="mt-6 text-3xl font-black text-trend-pine">

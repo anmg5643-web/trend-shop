@@ -5,7 +5,6 @@ import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
 
 const navItems = [
-  { label: "الرئيسية", href: "#home" },
   { label: "المنتجات", href: "#products" },
   { label: "مناطق التوصيل", href: "#cities" },
 ];
@@ -32,7 +31,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-separator bg-white/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         {/* الشعار */}
-        <Link to="/#home" aria-label="Baz SHOP" className="flex h-12 shrink-0 items-center">
+        <Link to="/#products" aria-label="Baz SHOP" className="flex h-12 shrink-0 items-center">
           <img src="/logo-wordmark.png" alt="Baz SHOP" className="h-10 w-auto object-contain" />
         </Link>
 

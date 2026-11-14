@@ -5,7 +5,6 @@ import AnimatedLogo from "./AnimatedLogo.jsx";
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "218945630859";
 
 const links = [
-  { label: "الرئيسية", href: "#home" },
   { label: "المنتجات", href: "#products" },
   { label: "مناطق التوصيل", href: "#cities" },
 ];
@@ -29,7 +28,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
           <div>
-            <Link to="/#home" aria-label="Baz SHOP" className="inline-block">
+            <Link to="/#products" aria-label="Baz SHOP" className="inline-block">
               <AnimatedLogo onDark className="h-12 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-7 text-white/60">

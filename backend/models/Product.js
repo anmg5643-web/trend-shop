@@ -21,12 +21,6 @@ const productSchema = new mongoose.Schema(
       required: [true, "السعر مطلوب"],
       min: 0,
     },
-    rating: {
-      type: Number,
-      default: 4.5,
-      min: 0,
-      max: 5,
-    },
     icon: {
       type: String,
       default: "ShoppingBag", // اسم أيقونة من مكتبة lucide-react

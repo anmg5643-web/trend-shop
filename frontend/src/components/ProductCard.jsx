@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Chip } from "@heroui/react";
-import { Star, ShoppingCart, CheckCircle2 } from "lucide-react";
+import { ShoppingCart, CheckCircle2 } from "lucide-react";
 import { getProductIcon } from "../lib/icons.js";
 import { getFileUrl } from "../lib/api.js";
 
@@ -66,12 +66,8 @@ export default function ProductCard({ product, onAddToCart }) {
 
       {/* التفاصيل */}
       <div className="flex flex-1 flex-col p-4">
-        <div className="flex items-center justify-between gap-2 text-xs text-trend-ink/50">
+        <div className="text-xs text-trend-ink/50">
           <span className="truncate">{product.categoryLabel}</span>
-          <span className="flex shrink-0 items-center gap-1">
-            <Star size={13} className="fill-trend-gold text-trend-gold" />
-            {product.rating}
-          </span>
         </div>
 
         <Link to={`/product/${product._id}`} className="mt-1.5">
